@@ -21,13 +21,9 @@ RUN groupadd -g $GID $UNAME
 RUN useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME
 
 RUN mkdir -p /workspace/data
-
-COPY . /workspace/N3-Mapping
-RUN pip install kaolin open3d scikit-image wandb tqdm natsort
-
-WORKDIR /workspace/N3-Mapping
-
+WORKDIR /workspace
+RUN pip install opencv-python open3d scikit-image wandb tqdm natsort \
+	&& pip install kaolin==0.13.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-1.10.0_cu113.html
 
 RUN chmod -R 777 /workspace
-
-# USER $UNAME
+USER $UNAME

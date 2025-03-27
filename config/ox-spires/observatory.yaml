@@ -1,12 +1,9 @@
 setting:
-  name: "ncd_incre"
+  name: "kebl_incre"
   output_root: "./experiments/"
-  # pc_path: "/workspace/data/newer_college/ncd_example/quad/pcd"
-  # pose_path: "/workspace/data/newer_college/ncd_example/quad/poses.txt"
-  # calib_path: "/workspace/data/newer_college/ncd_example/quad/calib.txt"
-  pc_path: "/workspace/data/newer_college/quad_easy/kitti/velodyne"
-  pose_path: "/workspace/data/newer_college/quad_easy/kitti/poses.txt"
-  calib_path: "/workspace/data/newer_college/quad_easy/kitti/calib.txt"
+  pc_path: "/workspace/data/oxford-spires/observatory-01/kitti/velodyne"
+  pose_path: "/workspace/data/oxford-spires/observatory-01/kitti/poses.txt"
+  calib_path: "/workspace/data/oxford-spires/keble-college-02/kitti/calib.txt"
   label_path: ""
   load_model: False
   model_path: ""

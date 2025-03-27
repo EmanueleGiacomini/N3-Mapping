@@ -1,12 +1,9 @@
 setting:
-  name: "ncd_incre"
+  name: "kebl_incre"
   output_root: "./experiments/"
-  # pc_path: "/workspace/data/newer_college/ncd_example/quad/pcd"
-  # pose_path: "/workspace/data/newer_college/ncd_example/quad/poses.txt"
-  # calib_path: "/workspace/data/newer_college/ncd_example/quad/calib.txt"
-  pc_path: "/workspace/data/newer_college/quad_easy/kitti/velodyne"
-  pose_path: "/workspace/data/newer_college/quad_easy/kitti/poses.txt"
-  calib_path: "/workspace/data/newer_college/quad_easy/kitti/calib.txt"
+  pc_path: "/workspace/data/oxford-spires/keble-college-02/kitti/velodyne"
+  pose_path: "/workspace/data/oxford-spires/keble-college-02/kitti/poses.txt"
+  calib_path: "/workspace/data/oxford-spires/keble-college-02/kitti/calib.txt"
   label_path: ""
   load_model: False
   model_path: ""
@@ -66,7 +63,7 @@ optimizer:
   extra_training: False
 eval:
   wandb_vis_on: False # log to wandb or not
-  o3d_vis_on: False # visualize the mapping or not
+  o3d_vis_on: True # visualize the mapping or not
   vis_freq_iters: 0
   save_freq_iters: 0 # save the model and octree every x iterations
   mesh_freq_frame: 1300 # reconstruct the mesh every x frames

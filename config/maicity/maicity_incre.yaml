@@ -1,9 +1,9 @@
 setting:
   name: "maicity_incre"
   output_root: "./experiments/"
-  pc_path: "/media/shy/Document/dataset/mai_city/ply/sequences/01/velodyne"
-  pose_path: "/media/shy/Document/dataset/mai_city/ply/sequences/01/poses.txt"
-  calib_path: "/media/shy/Document/dataset/mai_city/ply/sequences/01/calib.txt"
+  pc_path: "/workspace/data/mai_city/ply/sequences/00/velodyne"
+  pose_path: "/workspace/data/mai_city/ply/sequences/00/poses.txt"
+  calib_path: "/workspace/data/mai_city/ply/sequences/00/calib.txt"
   label_path: ""
   load_model: False # load the pretrained decoder model (optional)
   model_path: "./pretrained/geo_decoder_8dim.pth" 

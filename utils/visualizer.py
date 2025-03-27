@@ -15,16 +15,17 @@ BLACK = np.array([0, 0, 0]) / 255.0
 GOLDEN = np.array([1.0, 0.843, 0.0])
 
 random_color_table = [[230. / 255., 0., 0.],  # red
-                    [60. / 255., 180. / 255., 75. / 255.],  # green
-                    [0., 0., 255. / 255.],  # blue
-                    [255. / 255., 0, 255. / 255.],
-                    [255. / 255., 165. / 255., 0.],
-                    [128. / 255., 0, 128. / 255.],
-                    [0., 255. / 255., 255. / 255.],
-                    [210. / 255., 245. / 255., 60. / 255.],
-                    [250. / 255., 190. / 255., 190. / 255.],
-                    [0., 128. / 255., 128. / 255.]
-                    ]
+                      [60. / 255., 180. / 255., 75. / 255.],  # green
+                      [0., 0., 255. / 255.],  # blue
+                      [255. / 255., 0, 255. / 255.],
+                      [255. / 255., 165. / 255., 0.],
+                      [128. / 255., 0, 128. / 255.],
+                      [0., 255. / 255., 255. / 255.],
+                      [210. / 255., 245. / 255., 60. / 255.],
+                      [250. / 255., 190. / 255., 190. / 255.],
+                      [0., 128. / 255., 128. / 255.]
+                      ]
+
 
 class MapVisualizer():
     # Public Interaface ----------------------------------------------------------------------------
@@ -68,7 +69,7 @@ class MapVisualizer():
             if self.play_crun:
                 break
 
-    def update(self, scan, pose, mesh = None):
+    def update(self, scan, pose, mesh=None):
         if mesh is not None:
             if self.render_normal:
                 mesh = self.visualize_normals_with_rgb(mesh)
@@ -85,15 +86,15 @@ class MapVisualizer():
         self._update_mesh(mesh)
         self.update_view()
         self.pause_view()
-    
+
     def update_point_cloud(self, sample_points):
         self._update_point_cloud(sample_points)
         self.update_view()
         self.pause_view()
-    
+
     def destroy_window(self):
         self.vis.destroy_window()
-    
+
     def stop(self):
         self.play_crun = not self.play_crun
         while self.block_vis:
@@ -101,29 +102,30 @@ class MapVisualizer():
             self.vis.update_renderer()
             if self.play_crun:
                 break
-    
+
     def visualize_normals_with_rgb(self, mesh):
         normals = np.asarray(mesh.vertex_normals)
         colors = (normals+1.0)*0.5
         mesh.vertex_colors = o3d.utility.Vector3dVector(colors)
         return mesh
-    
+
     def save_video(self, output_path):
         # save record images to videof file.
-        fourcc = cv2.VideoWriter_fourcc(*"mp4v") 
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
         video_writer = cv2.VideoWriter(output_path, fourcc, 10.0, (1920, 1080))
         print("begin to generate video...")
         print(len(self.record_images))
         for image in self.record_images:
-            #cv2.imshow("image", image)
+            # cv2.imshow("image", image)
             video_writer.write(image)
         print("finished!")
         video_writer.release()
-    
+
     # Private Interaface ---------------------------------------------------------------------------
     def _initialize_visualizer(self):
         w_name = self.__class__.__name__
         self.vis.create_window(window_name=w_name, width=1920, height=1080)
+        print(self.vis.get_render_option())
         self.vis.add_geometry(self.scan)
         self.vis.add_geometry(self.frame)
         self.vis.add_geometry(self.mesh)
@@ -132,7 +134,8 @@ class MapVisualizer():
         self.vis.get_render_option().light_on = False
         self.vis.get_render_option().mesh_show_back_face = True
         print(100 * "*")
-        print(f"{w_name} initialized. Press [SPACE] to pause/start, [N] to step, [ESC] to exit.")
+        print(
+            f"{w_name} initialized. Press [SPACE] to pause/start, [N] to step, [ESC] to exit.")
 
     def _register_key_callback(self, keys: List, callback: Callable):
         for key in keys:
@@ -151,7 +154,8 @@ class MapVisualizer():
         vis.get_render_option().background_color = [0.0, 0.0, 0.0]
 
     def _set_white_background(self, vis):
-        vis.get_render_option().background_color = [1.0, 1.0, 1.0]
+        # vis.get_render_option().background_color = [1.0, 1.0, 1.0]
+        return
 
     def _quit(self, vis):
         print("Destroying Visualizer")
@@ -171,21 +175,22 @@ class MapVisualizer():
     def _toggle_map(self, vis):
         self.render_map = not self.render_map
         return False
-    
+
     def _update_mesh(self, mesh):
         if mesh is not None:
             self.vis.remove_geometry(self.mesh, self.reset_bounding_box)
             self.mesh = mesh
             self.vis.add_geometry(self.mesh, self.reset_bounding_box)
-    
+
     def _update_point_cloud(self, pcd):
         if pcd is not None:
-            self.vis.remove_geometry(self.sample_points, self.reset_bounding_box)
+            self.vis.remove_geometry(
+                self.sample_points, self.reset_bounding_box)
             self.sample_points = pcd
             self.vis.add_geometry(self.sample_points, self.reset_bounding_box)
             print("update point cloud")
 
-    def _update_geometries(self, scan, pose, mesh = None):
+    def _update_geometries(self, scan, pose, mesh=None):
         # Scan (toggled by "F")
         if self.render_frame:
             self.scan.points = o3d.utility.Vector3dVector(scan.points)
@@ -194,21 +199,23 @@ class MapVisualizer():
             self.scan.points = o3d.utility.Vector3dVector()
 
         # Always visualize the coordinate frame
-        self.frame = o3d.geometry.TriangleMesh.create_coordinate_frame(size=self.frame_axis_len, origin=np.zeros(3))
+        self.frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
+            size=self.frame_axis_len, origin=np.zeros(3))
         self.frame = self.frame.transform(pose)
-        
+
         # Mesh Map (toggled by "M")
         # mesh already got global shifted
         if self.render_map:
             if mesh is not None:
-                self.vis.remove_geometry(self.mesh, self.reset_bounding_box)  # if comment, then we keep the previous reconstructed mesh (for the case we use local map reconstruction) 
+                # if comment, then we keep the previous reconstructed mesh (for the case we use local map reconstruction)
+                self.vis.remove_geometry(self.mesh, self.reset_bounding_box)
                 self.mesh = mesh
                 self.vis.add_geometry(self.mesh, self.reset_bounding_box)
         else:
-            self.vis.remove_geometry(self.mesh, self.reset_bounding_box) 
+            self.vis.remove_geometry(self.mesh, self.reset_bounding_box)
 
         self.vis.update_geometry(self.scan)
-        self.vis.add_geometry(self.frame, self.reset_bounding_box)            
+        self.vis.add_geometry(self.frame, self.reset_bounding_box)
 
         if self.reset_bounding_box:
             self.vis.reset_view_point(True)
@@ -220,5 +227,6 @@ class MapVisualizer():
         vis.reset_view_point(True)
         current_camera = self.view_control.convert_to_pinhole_camera_parameters()
         if self.camera_params and not self.global_view:
-            self.view_control.convert_from_pinhole_camera_parameters(self.camera_params)
+            self.view_control.convert_from_pinhole_camera_parameters(
+                self.camera_params)
         self.camera_params = current_camera
